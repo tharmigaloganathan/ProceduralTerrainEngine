@@ -28,13 +28,13 @@ Day 2 milestone complete:
 
 Day 3 milestone complete:
 
-•⁠  ⁠Added procedural terrain mesh generation
-•⁠  ⁠Generated grid-based terrain vertices in world space
-•⁠  ⁠Built triangle index data for terrain surface rendering
-•⁠  ⁠Extended mesh wrapper to support indexed drawing with element buffers
-•⁠  ⁠Rendered first generated terrain patch using OpenGL triangles
-•⁠  ⁠Added basic height function for early terrain variation
-•⁠  ⁠Prepared terrain generation structure for future noise, biomes, and chunks
+- ⁠Added procedural terrain mesh generation
+- ⁠Generated grid-based terrain vertices in world space
+- ⁠Built triangle index data for terrain surface rendering
+- ⁠Extended mesh wrapper to support indexed drawing with element buffers
+- ⁠Rendered first generated terrain patch using OpenGL triangles
+- ⁠Added basic height function for early terrain variation
+- ⁠Prepared terrain generation structure for future noise, biomes, and chunks
 
 ## Planned Features
 
