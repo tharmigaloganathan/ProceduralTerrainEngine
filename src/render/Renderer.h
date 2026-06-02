@@ -6,6 +6,7 @@
 
 #include "Shader.h"
 #include "Mesh.h"
+#include "world/TerrainGenerator.h"
 
 class Camera;
 
@@ -14,11 +15,11 @@ public:
     Renderer();
 
     void beginFrame();
-    void drawGrid(const Camera& camera);
+    void drawScene(const Camera& camera);
     void endFrame();
 
 private:
     Shader basicShader;
-    Mesh gridMesh;
+    Mesh terrainMesh;
 };
 

@@ -22,7 +22,9 @@ add_executable(ProceduralTerrainEngine
         src/render/Camera.cpp
         src/render/Camera.h
         src/input/Input.cpp
-        src/input/Input.h)
+        src/input/Input.h
+        src/world/TerrainGenerator.cpp
+        src/world/TerrainGenerator.h)
 
 target_include_directories(ProceduralTerrainEngine PRIVATE
         src

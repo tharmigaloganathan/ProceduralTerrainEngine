@@ -28,7 +28,7 @@ void WorldExplorerApp::run() {
         update(deltaTime);
 
         renderer.beginFrame();
-        renderer.drawGrid(camera);
+        renderer.drawScene(camera);
         renderer.endFrame();
 
         window.swapBuffers();
