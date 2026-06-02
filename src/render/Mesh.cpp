@@ -6,11 +6,46 @@
 
 #include <glad/gl.h>
 
+namespace {
+    constexpr int FLOATS_PER_VERTEX = 6;
+
+    // Attribute offsets describe how to read interleaved position/color data from the VBO.
+    //
+    void configureVertexAttributes() {
+        const auto stride = static_cast<GLsizei>(FLOATS_PER_VERTEX * sizeof(float));
+
+        // Position attribute: x, y, z
+        // Attribute 0: position, matching `layout(location = 0)` in the vertex shader.
+        //
+        glVertexAttribPointer(
+            0,
+            3,
+            GL_FLOAT,
+            GL_FALSE,
+            stride,
+            nullptr
+        );
+        glEnableVertexAttribArray(0);
+
+        // Color attribute: r, g, b
+        // Attribute 1: color, matching `layout(location = 1)` in the vertex shader.
+        //
+        glVertexAttribPointer(
+            1,
+            3,
+            GL_FLOAT,
+            GL_FALSE,
+            stride,
+            reinterpret_cast<void*>(3 * sizeof(float))
+        );
+        glEnableVertexAttribArray(1);
+    }
+}
 Mesh::Mesh(const std::vector<float>& vertices, unsigned int drawMode)
     : drawMode(drawMode) {
-    // Stores only positions for now: 3 floats per vertex.
+    // Each vertex stores position and colour: 6 floats per vertex.
     //
-    vertexCount = static_cast<int>(vertices.size() / 3);
+    vertexCount = static_cast<int>(vertices.size() / 6);
 
     // A VAO stores the vertex attribute layout; a VBO stores the actual vertex data.
     //
@@ -29,18 +64,7 @@ Mesh::Mesh(const std::vector<float>& vertices, unsigned int drawMode)
         GL_STATIC_DRAW
         );
 
-    // Attribute location 0 matches `layout(location = 0)` in basic.vert.
-    //
-    glVertexAttribPointer(
-        0,
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        3 * sizeof(float),
-        nullptr
-        );
-
-    glEnableVertexAttribArray(0);
+    configureVertexAttributes();
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -52,7 +76,7 @@ Mesh::Mesh(
     unsigned int drawMode
     )
     : drawMode(drawMode) {
-    vertexCount = static_cast<int>(vertices.size() / 3);
+    vertexCount = static_cast<int>(vertices.size() / 6);
     indexCount = static_cast<int>(indices.size());
 
     glGenVertexArrays(1, &vao);
@@ -77,16 +101,7 @@ Mesh::Mesh(
         GL_STATIC_DRAW
         );
 
-    glVertexAttribPointer(
-        0,
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        3 * sizeof(float),
-        nullptr
-        );
-
-    glEnableVertexAttribArray(0);
+    configureVertexAttributes();
 
     glBindVertexArray(0);
 }
