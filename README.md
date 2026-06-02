@@ -14,6 +14,18 @@ Day 1 milestone complete:
 - Rendered first OpenGL triangle
 - Handled framebuffer resize events for correct viewport updates
 
+Day 2 milestone complete:
+
+- Integrated GLM for 3D vector and matrix math
+- Added camera class with position, yaw/pitch rotation, view matrix, and perspective projection
+- Updated shaders to use model and view-projection matrices
+- Added keyboard-based camera movement with delta-time scaling
+- Added input wrapper around GLFW key polling
+- Generalized mesh rendering to support multiple OpenGL draw modes
+- Generated and rendered a procedural 3D debug grid using line primitives
+- Enabled depth testing for 3D rendering
+- Updated framebuffer-aware aspect ratio handling for correct perspective projection
+
 ## Planned Features
 
 - GLM-based camera and transform math
