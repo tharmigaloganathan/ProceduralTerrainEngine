@@ -2,16 +2,13 @@
 // Created by Tharmiga Loganathan on 2026-06-01.
 //
 
-#ifndef PROCEDURALTERRAINENGINE_MESH_H
-#define PROCEDURALTERRAINENGINE_MESH_H
-
 #pragma once
 
 #include <vector>
 
 class Mesh {
 public:
-    explicit Mesh(const std::vector<float>& vertices);
+    Mesh(const std::vector<float>& vertices, unsigned int drawMode);
     ~Mesh();
 
     Mesh(const Mesh&) = delete;
@@ -25,8 +22,7 @@ public:
 private:
     unsigned int vao = 0;
     unsigned int vbo = 0;
+    unsigned int drawMode = 0;
     int vertexCount = 0;
 };
 
-
-#endif //PROCEDURALTERRAINENGINE_MESH_H

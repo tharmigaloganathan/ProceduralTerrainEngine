@@ -6,8 +6,9 @@
 
 #include <glad/gl.h>
 
-Mesh::Mesh(const std::vector<float>& vertices) {
-    // This Day 1 mesh stores only positions: 3 floats per vertex.
+Mesh::Mesh(const std::vector<float>& vertices, unsigned int drawMode)
+    : drawMode(drawMode) {
+    // Stores only positions for now: 3 floats per vertex.
     //
     vertexCount = static_cast<int>(vertices.size() / 3);
 
@@ -18,6 +19,8 @@ Mesh::Mesh(const std::vector<float>& vertices) {
 
     glBindVertexArray(vao);
 
+    // Upload vertex position data to the GPU.
+    //
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(
         GL_ARRAY_BUFFER,
@@ -90,6 +93,6 @@ Mesh& Mesh::operator=(Mesh&& other) noexcept {
 
 void Mesh::draw() const {
     glBindVertexArray(vao);
-    // glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+    glDrawArrays(drawMode, 0, vertexCount);
     glBindVertexArray(0);
 }

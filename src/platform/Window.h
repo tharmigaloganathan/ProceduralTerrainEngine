@@ -2,9 +2,6 @@
 // Created by Tharmiga Loganathan on 2026-05-26.
 //
 
-#ifndef PROCEDURALTERRAINENGINE_WINDOW_H
-#define PROCEDURALTERRAINENGINE_WINDOW_H
-
 #pragma once
 
 struct GLFWwindow;
@@ -21,9 +18,13 @@ class Window {
         void pollEvents();
         void swapBuffers();
 
+        int framebufferWidth() const;
+        int framebufferHeight() const;
+
+        GLFWwindow* nativeHandle() const;
+
     private:
+        // Window owns the GLFW window handle and releases it in the destructor.
+        //
         GLFWwindow* handle = nullptr;
 };
-
-
-#endif //PROCEDURALTERRAINENGINE_WINDOW_H

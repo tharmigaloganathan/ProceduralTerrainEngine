@@ -18,11 +18,16 @@ add_executable(ProceduralTerrainEngine
         src/render/Shader.cpp
         src/render/Shader.h
         src/render/Mesh.cpp
-        src/render/Mesh.h)
+        src/render/Mesh.h
+        src/render/Camera.cpp
+        src/render/Camera.h
+        src/input/Input.cpp
+        src/input/Input.h)
 
 target_include_directories(ProceduralTerrainEngine PRIVATE
         src
-        external/glad/include)
+        external/glad/include
+        external/glm)
 
 target_link_libraries(ProceduralTerrainEngine PRIVATE
         glfw)

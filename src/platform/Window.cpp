@@ -9,8 +9,10 @@
 
 #include <stdexcept>
 
-void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
+namespace {
+    void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    }
 }
 
 Window::Window(int width, int height, const char* title) {
@@ -18,11 +20,15 @@ Window::Window(int width, int height, const char* title) {
         throw std::runtime_error("Failed to initialize GLFW");
     }
 
+    // Request an OpenGL 3.3 Core Profile context.
+    //
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
+    // macOS requires forward-compatible OpenGL when using the core profile.
+    //
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
@@ -77,4 +83,22 @@ void Window::pollEvents() {
 
 void Window::swapBuffers() {
     glfwSwapBuffers(handle);
+}
+
+int Window::framebufferWidth() const {
+    int width = 0;
+    int height = 0;
+    glfwGetFramebufferSize(handle, &width, &height);
+    return width;
+}
+
+int Window::framebufferHeight() const {
+    int width = 0;
+    int height = 0;
+    glfwGetFramebufferSize(handle, &width, &height);
+    return height;
+}
+
+GLFWwindow* Window::nativeHandle() const {
+    return handle;
 }

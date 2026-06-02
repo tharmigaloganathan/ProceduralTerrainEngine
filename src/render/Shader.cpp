@@ -5,6 +5,7 @@
 #include "Shader.h"
 
 #include <glad/gl.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -17,7 +18,7 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
     const std::string vertexSource = readFile(vertexPath);
     const std::string fragmentSource = readFile(fragmentPath);
 
-    // Compile vertex and fragment shaders separately, then link them into one GPU program.
+    // Vertex and fragment shaders are compiled separately, then linked into one program.
     //
     const unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource);
     const unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
@@ -42,7 +43,7 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
         throw std::runtime_error(std::string("Shader program link failed:\n") + infoLog);
     }
 
-    // Individual shader objects are no longer needed after linking.
+    // Individual shader objects are no longer needed once the program is linked.
     //
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
@@ -65,6 +66,8 @@ Shader::Shader(Shader&& other) noexcept
 
 Shader& Shader::operator=(Shader&& other) noexcept {
     if (this != &other) {
+        // Release the currently owned program before taking ownership of another.
+        //
         if (programId != 0) {
             glDeleteProgram(programId);
         }
@@ -78,6 +81,13 @@ Shader& Shader::operator=(Shader&& other) noexcept {
 
 void Shader::use() const {
     glUseProgram(programId);
+}
+
+void Shader::setMat4(const std::string& name, const glm::mat4& matrix) const {
+    // Send a GLM matrix to the matching GLSL uniform.
+    //
+    const int location = glGetUniformLocation(programId, name.c_str());
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 std::string Shader::readFile(const std::string& path) {
