@@ -26,6 +26,16 @@ Day 2 milestone complete:
 - Enabled depth testing for 3D rendering
 - Updated framebuffer-aware aspect ratio handling for correct perspective projection
 
+Day 3 milestone complete:
+
+•⁠  ⁠Added procedural terrain mesh generation
+•⁠  ⁠Generated grid-based terrain vertices in world space
+•⁠  ⁠Built triangle index data for terrain surface rendering
+•⁠  ⁠Extended mesh wrapper to support indexed drawing with element buffers
+•⁠  ⁠Rendered first generated terrain patch using OpenGL triangles
+•⁠  ⁠Added basic height function for early terrain variation
+•⁠  ⁠Prepared terrain generation structure for future noise, biomes, and chunks
+
 ## Planned Features
 
 - GLM-based camera and transform math
