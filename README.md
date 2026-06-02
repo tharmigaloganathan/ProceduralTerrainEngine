@@ -36,6 +36,15 @@ Day 3 milestone complete:
 - ⁠Added basic height function for early terrain variation
 - ⁠Prepared terrain generation structure for future noise, biomes, and chunks
 
+Day 4 milestone complete:
+
+- Extended terrain vertices to include per-vertex color data
+- Added height-based terrain coloring for water, grass, rock, and snow regions
+- Updated mesh vertex layout to support multiple vertex attributes
+- Updated GLSL shader pipeline to pass vertex colors from CPU-generated terrain to fragment shader
+- Rendered first visually classified terrain surface
+- Prepared terrain data format for future biome rules, normals, lighting, and materials
+
 ## Planned Features
 
 - GLM-based camera and transform math
