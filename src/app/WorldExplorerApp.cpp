@@ -6,12 +6,18 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <iomanip>
+#include <sstream>
 
 WorldExplorerApp::WorldExplorerApp()
     : window(1280, 720, "Procedural Terrain Engine"),
       input(window.nativeHandle()),
       camera(aspectRatio()),
-      renderer() {}
+      renderer() {
+    // Generate the initial terrain through the same path used for later regeneration.
+    //
+    renderer.regenerateTerrain(terrainSettings, metrics);
+}
 
 void WorldExplorerApp::run() {
     float lastTime = static_cast<float>(glfwGetTime());
@@ -23,6 +29,14 @@ void WorldExplorerApp::run() {
         const float deltaTime = currentTime - lastTime;
         lastTime = currentTime;
 
+        // Convert per-frame delta time into metrics used by the debug display.
+        //
+        metrics.frameTimeMs = deltaTime * 1000.0f;
+
+        if (deltaTime > 0.0f) {
+            metrics.fps = 1.0f / deltaTime;
+        }
+
         window.pollEvents();
         input.update();
 
@@ -31,6 +45,8 @@ void WorldExplorerApp::run() {
         renderer.beginFrame();
         renderer.drawScene(camera);
         renderer.endFrame();
+
+        updateWindowTitle(deltaTime);
 
         window.swapBuffers();
     }
@@ -91,8 +107,32 @@ void WorldExplorerApp::update(float deltaTime) {
         terrainSettings.heightScale += 0.5f;
         terrainSettings.frequency += 0.03f;
 
-        renderer.regenerateTerrain(terrainSettings);
+        renderer.regenerateTerrain(terrainSettings, metrics);
     }
+}
+
+void WorldExplorerApp::updateWindowTitle(float deltaTime) {
+    // Update the debug title at a lower rate than the render loop.
+    //
+    metricsTitleUpdateAccumulator += deltaTime;
+
+    if (metricsTitleUpdateAccumulator < 0.5f) {
+        return;
+    }
+
+    metricsTitleUpdateAccumulator = 0.0f;
+
+    // Temporary metrics display until a Dear ImGui performance panel is added.
+    //
+    std::ostringstream title;
+    title << "Procedural Terrain Engine"
+          << " | FPS: " << static_cast<int>(metrics.fps)
+          << " | Frame: " << std::fixed << std::setprecision(2)
+          << metrics.frameTimeMs << " ms"
+          << " | Terrain Gen: "
+          << metrics.terrainGenerationTimeMs << " ms";
+
+    window.setTitle(title.str());
 }
 
 float WorldExplorerApp::aspectRatio() const {

@@ -4,6 +4,7 @@
 
 #include "Renderer.h"
 #include "Camera.h"
+#include "core/ScopedTimer.h"
 
 #include <glad/gl.h>
 #include <glm/mat4x4.hpp>
@@ -24,8 +25,7 @@ namespace {
 }
 
 Renderer::Renderer()
-    : basicShader("assets/shaders/basic.vert", "assets/shaders/basic.frag"),
-      terrainMesh(createTerrainMesh(TerrainSettings{})) {}
+    : basicShader("assets/shaders/basic.vert", "assets/shaders/basic.frag") {}
 
 void Renderer::beginFrame() {
     // Tells OpenGL to use depth information so closer objects can appear in front of farther objects.
@@ -56,6 +56,7 @@ void Renderer::endFrame() {
 
 // Replaces the active terrain mesh; the old mesh releases its GPU buffers through RAII.
 //
-void Renderer::regenerateTerrain(const TerrainSettings& settings) {
+void Renderer::regenerateTerrain(const TerrainSettings& settings, PerformanceMetrics& metrics) {
+    ScopedTimer timer(metrics.terrainGenerationTimeMs);
     terrainMesh = createTerrainMesh(settings);
 }

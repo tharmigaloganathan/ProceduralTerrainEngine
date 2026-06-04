@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "world/TerrainGenerator.h"
+#include "core/PerformanceMetrics.h"
 
 class Camera;
 
@@ -18,10 +19,11 @@ public:
     void drawScene(const Camera& camera);
     void endFrame();
 
-    void regenerateTerrain(const TerrainSettings& settings);
+    void regenerateTerrain(const TerrainSettings& settings, PerformanceMetrics& metrics);
 
 private:
     Shader basicShader;
+
     // Stored as unique_ptr so the terrain mesh can be replaced during regeneration.
     //
     std::unique_ptr<Mesh> terrainMesh;

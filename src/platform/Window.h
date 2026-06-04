@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 struct GLFWwindow;
 
 class Window {
@@ -22,6 +24,10 @@ class Window {
         int framebufferHeight() const;
 
         GLFWwindow* nativeHandle() const;
+
+        // Update the native window title; used for temporary debug metrics display.
+        //
+        void setTitle(const std::string& title) const;
 
     private:
         // Window owns the GLFW window handle and releases it in the destructor.

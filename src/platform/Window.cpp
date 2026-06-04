@@ -102,3 +102,7 @@ int Window::framebufferHeight() const {
 GLFWwindow* Window::nativeHandle() const {
     return handle;
 }
+
+void Window::setTitle(const std::string& title) const {
+    glfwSetWindowTitle(handle, title.c_str());
+}

@@ -24,7 +24,9 @@ add_executable(ProceduralTerrainEngine
         src/input/Input.cpp
         src/input/Input.h
         src/world/TerrainGenerator.cpp
-        src/world/TerrainGenerator.h)
+        src/world/TerrainGenerator.h
+        src/core/PerformanceMetrics.h
+        src/core/ScopedTimer.h)
 
 target_include_directories(ProceduralTerrainEngine PRIVATE
         src
