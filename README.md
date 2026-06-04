@@ -2,6 +2,25 @@
 
 A C++ real-time procedural terrain simulation engine built with OpenGL, GLM, and Dear ImGui. The project is designed to explore terrain generation, seeded biome systems, chunk-based world streaming, background terrain generation, thread-safe job queues, serialization, and live performance instrumentation.
 
+## Architecture Overview
+
+The application is organized into several layers:
+
+- `app/` coordinates the main loop, input updates, terrain settings, metrics, and rendering.
+- `platform/` wraps GLFW window creation, context setup, framebuffer sizing, and title updates.
+- `input/` provides keyboard polling and one-frame key press detection.
+- `render/` owns GPU-facing systems such as shaders, meshes, camera matrices, and scene drawing.
+- `world/` generates CPU-side terrain mesh data from configurable terrain settings.
+- `core/` contains shared utilities such as performance metrics and scoped timing.
+
+## Controls
+
+- `W/S` - Move camera forward/backward
+- `A/D` - Move camera left/right
+- `Q/E` - Move camera down/up
+- Arrow keys - Rotate camera
+- `R` - Regenerate terrain with updated settings
+
 ## Current Status
 
 Day 1 milestone complete:
