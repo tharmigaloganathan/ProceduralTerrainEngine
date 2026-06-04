@@ -45,6 +45,15 @@ Day 4 milestone complete:
 - Rendered first visually classified terrain surface
 - Prepared terrain data format for future biome rules, normals, lighting, and materials
 
+Day 5 milestone complete:
+
+- ⁠Added configurable terrain generation settings
+- ⁠Replaced hardcoded terrain resolution, spacing, frequency, and height scale values
+- ⁠Updated terrain height generation to use structured parameter input
+- ⁠Added terrain mesh regeneration support through the renderer
+- ⁠Improved separation between terrain generation data and rendering code
+- ⁠Prepared terrain settings pipeline for future Dear ImGui controls, seed input, serialization, and live terrain regeneration
+
 ## Planned Features
 
 - GLM-based camera and transform math
