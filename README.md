@@ -54,6 +54,14 @@ Day 5 milestone complete:
 - ⁠Improved separation between terrain generation data and rendering code
 - ⁠Prepared terrain settings pipeline for future Dear ImGui controls, seed input, serialization, and live terrain regeneration
 
+Day 6 milestone complete:
+
+- Added frame timing and FPS tracking
+- Added terrain generation timing using scoped performance measurement
+- Displayed live performance metrics in the window title
+- Added timing data flow from terrain regeneration into the renderer/app layer
+- Prepared performance instrumentation for future Dear ImGui panels and chunk-generation profiling
+
 ## Planned Features
 
 - GLM-based camera and transform math
