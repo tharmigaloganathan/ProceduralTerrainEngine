@@ -10,10 +10,16 @@ class Input {
 public:
     explicit Input(GLFWwindow* window);
 
+    void update();
+
     bool isKeyDown(int key) const;
+    bool wasKeyPressed(int key) const;
 
 private:
     // Non-owning pointer; Window owns the actual GLFWwindow.
     //
     GLFWwindow* window = nullptr;
+
+    bool previousRDown = false;
+    bool currentRDown = false;
 };

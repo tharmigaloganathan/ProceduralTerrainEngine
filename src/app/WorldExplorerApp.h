@@ -8,6 +8,7 @@
 #include "../platform/Window.h"
 #include "../render/Camera.h"
 #include "../render/Renderer.h"
+#include "../world/TerrainGenerator.h"
 
 class WorldExplorerApp {
 public:
@@ -24,4 +25,6 @@ private:
     Input input;
     Camera camera;
     Renderer renderer;
+
+    TerrainSettings terrainSettings;
 };

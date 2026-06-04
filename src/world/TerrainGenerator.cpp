@@ -6,11 +6,16 @@
 
 #include <cmath>
 
-TerrainMeshData TerrainGenerator::generate(int resolution, float spacing) const {
+TerrainMeshData TerrainGenerator::generate(const TerrainSettings& settings) const {
     TerrainMeshData meshData;
 
-    const int vertexCountPerSide = resolution + 1;
-    const float halfSize = static_cast<float>(resolution) * spacing * 0.5f;
+    // Clamp settings to safe minimums so invalid UI/input values cannot break mesh generation.
+    //
+    const int safeResolution = std::max(settings.resolution, 1);
+    const float safeSpacing = std::max(settings.spacing, 0.01f);
+
+    const int vertexCountPerSide = safeResolution + 1;
+    const float halfSize = static_cast<float>(safeResolution) * safeSpacing * 0.5f;
 
     // Each vertex stores 6 floats: x, y, z, r, g, b.
     //
@@ -22,24 +27,24 @@ TerrainMeshData TerrainGenerator::generate(int resolution, float spacing) const 
     //
     for (int z = 0; z < vertexCountPerSide; ++z) {
         for (int x = 0; x < vertexCountPerSide; ++x) {
-            const float worldX = static_cast<float>(x) * spacing - halfSize;
-            const float worldZ = static_cast<float>(z) * spacing - halfSize;
-            const float worldY = heightAt(worldX, worldZ);
+            const float worldX = static_cast<float>(x) * safeSpacing - halfSize;
+            const float worldZ = static_cast<float>(z) * safeSpacing - halfSize;
+            const float worldY = heightAt(worldX, worldZ, settings);
 
             meshData.vertices.push_back(worldX);
             meshData.vertices.push_back(worldY);
             meshData.vertices.push_back(worldZ);
 
-            appendColorForHeight(meshData.vertices, worldY);
+            appendColorForHeight(meshData.vertices, worldY, settings);
         }
     }
 
-    meshData.indices.reserve(static_cast<std::size_t>(resolution * resolution * 6));
+    meshData.indices.reserve(static_cast<std::size_t>(safeResolution * safeResolution * 6));
 
     // Convert each grid cell into two triangles using indexed drawing.
     //
-    for (int z = 0; z < resolution; ++z) {
-        for (int x = 0; x < resolution; ++x) {
+    for (int z = 0; z < safeResolution; ++z) {
+        for (int x = 0; x < safeResolution; ++x) {
             const std::uint32_t topLeft = static_cast<std::uint32_t>(z * vertexCountPerSide + x);
             const std::uint32_t topRight = topLeft + 1;
             const std::uint32_t bottomLeft = static_cast<std::uint32_t>((z + 1) * vertexCountPerSide + x);
@@ -58,26 +63,36 @@ TerrainMeshData TerrainGenerator::generate(int resolution, float spacing) const 
     return meshData;
 }
 
-float TerrainGenerator::heightAt(float x, float z) const {
+float TerrainGenerator::heightAt(
+    float x,
+    float z,
+    const TerrainSettings& settings
+    ) const {
     // Later this function will be replaced with seeded noise.
     //
-    return std::sin(x * 0.35f) * std::cos(z * 0.35f) * 1.5f;
+    return std::sin(x * settings.frequency)
+         * std::cos(z * settings.frequency)
+         * settings.heightScale;
 }
 
-void TerrainGenerator::appendColorForHeight(std::vector<float>& vertices, float height) const {
+void TerrainGenerator::appendColorForHeight(
+    std::vector<float>& vertices,
+    float height,
+    const TerrainSettings& settings
+    ) const {
     // Height bands are a temporary stand-in for future biome classification.
     //
-    if (height < 0.4f) {
+    if (height < settings.waterHeight) {
         // Water
         vertices.push_back(0.1f);
         vertices.push_back(0.25f);
         vertices.push_back(0.8f);
-    } else if (height < 0.5f) {
+    } else if (height < settings.grassHeight) {
         // Grass
         vertices.push_back(0.2f);
         vertices.push_back(0.65f);
         vertices.push_back(0.25f);
-    } else if (height < 1.1f) {
+    } else if (height < settings.rockHeight) {
         // Rock/dirt
         vertices.push_back(0.45f);
         vertices.push_back(0.35f);

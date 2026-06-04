@@ -24,6 +24,7 @@ void WorldExplorerApp::run() {
         lastTime = currentTime;
 
         window.pollEvents();
+        input.update();
 
         update(deltaTime);
 
@@ -84,6 +85,13 @@ void WorldExplorerApp::update(float deltaTime) {
 
     if (input.isKeyDown(GLFW_KEY_DOWN)) {
         camera.rotate(0.0f, -rotateAmount);
+    }
+
+    if (input.wasKeyPressed(GLFW_KEY_R)) {
+        terrainSettings.heightScale += 0.5f;
+        terrainSettings.frequency += 0.03f;
+
+        renderer.regenerateTerrain(terrainSettings);
     }
 }
 

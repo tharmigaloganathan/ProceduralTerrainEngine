@@ -18,8 +18,12 @@ public:
     void drawScene(const Camera& camera);
     void endFrame();
 
+    void regenerateTerrain(const TerrainSettings& settings);
+
 private:
     Shader basicShader;
-    Mesh terrainMesh;
+    // Stored as unique_ptr so the terrain mesh can be replaced during regeneration.
+    //
+    std::unique_ptr<Mesh> terrainMesh;
 };
 
