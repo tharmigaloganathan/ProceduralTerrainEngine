@@ -81,6 +81,16 @@ Day 6 milestone complete:
 - Added timing data flow from terrain regeneration into the renderer/app layer
 - Prepared performance instrumentation for future Dear ImGui panels and chunk-generation profiling
 
+Day 8 milestone complete:
+
+- Added chunk coordinate and terrain chunk abstractions
+- Added ChunkManager to own and regenerate terrain chunks
+- Moved terrain mesh ownership from Renderer into Chunk
+- Updated terrain generation to support chunk world offsets
+- Updated renderer to draw chunk-managed terrain
+- Preserved terrain regeneration flow through the chunk system
+- Prepared architecture for multi-chunk loading, unloading, and streaming
+
 ## Planned Features
 
 - GLM-based camera and transform math
