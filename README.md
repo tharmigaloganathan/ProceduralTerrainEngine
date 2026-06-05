@@ -91,6 +91,15 @@ Day 8 milestone complete:
 - Preserved terrain regeneration flow through the chunk system
 - Prepared architecture for multi-chunk loading, unloading, and streaming
 
+Day 9 milestone complete:
+
+- ⁠Expanded ChunkManager to generate a multi-chunk terrain region
+- ⁠Added chunk-radius-based creation of active terrain chunks
+- ⁠Generated and rendered a 3x3 chunk grid around the origin
+- ⁠Preserved continuous terrain sampling across chunk boundaries using world-space coordinates
+- ⁠Updated regeneration flow to rebuild all active chunks from shared terrain settings
+- ⁠Prepared chunk management structure for future camera-based loading and unloading
+
 ## Planned Features
 
 - GLM-based camera and transform math
