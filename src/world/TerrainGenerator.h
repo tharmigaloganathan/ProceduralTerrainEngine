@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "world/ChunkCoord.h"
+
 #include <cstdint>
 #include <vector>
 
@@ -32,7 +34,7 @@ struct TerrainMeshData {
 
 class TerrainGenerator {
 public:
-    TerrainMeshData generate(const TerrainSettings& settings) const;
+    TerrainMeshData generate(const TerrainSettings& settings, ChunkCoord coord) const;
 
 private:
     float heightAt(float x, float z, const TerrainSettings& settings) const;

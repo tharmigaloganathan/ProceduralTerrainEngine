@@ -5,9 +5,9 @@
 #pragma once
 
 #include "Shader.h"
-#include "Mesh.h"
-#include "world/TerrainGenerator.h"
-#include "core/PerformanceMetrics.h"
+#include "world/Chunk.h"
+
+#include <vector>
 
 class Camera;
 
@@ -16,16 +16,11 @@ public:
     Renderer();
 
     void beginFrame();
-    void drawScene(const Camera& camera);
+    void drawScene(const Camera& camera, const std::vector<Chunk>& chunks);
     void endFrame();
-
-    void regenerateTerrain(const TerrainSettings& settings, PerformanceMetrics& metrics);
 
 private:
     Shader basicShader;
 
-    // Stored as unique_ptr so the terrain mesh can be replaced during regeneration.
-    //
-    std::unique_ptr<Mesh> terrainMesh;
 };
 

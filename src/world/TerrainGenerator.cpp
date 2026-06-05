@@ -6,7 +6,9 @@
 
 #include <cmath>
 
-TerrainMeshData TerrainGenerator::generate(const TerrainSettings& settings) const {
+TerrainMeshData TerrainGenerator::generate(
+    const TerrainSettings& settings,
+    ChunkCoord coord) const {
     TerrainMeshData meshData;
 
     // Clamp settings to safe minimums so invalid UI/input values cannot break mesh generation.
@@ -15,7 +17,11 @@ TerrainMeshData TerrainGenerator::generate(const TerrainSettings& settings) cons
     const float safeSpacing = std::max(settings.spacing, 0.01f);
 
     const int vertexCountPerSide = safeResolution + 1;
-    const float halfSize = static_cast<float>(safeResolution) * safeSpacing * 0.5f;
+    const float chunkWorldSize = static_cast<float>(safeResolution) * safeSpacing;
+    const float halfSize = chunkWorldSize * 0.5f;
+
+    const float chunkOffsetX = static_cast<float>(coord.x) * chunkWorldSize;
+    const float chunkOffsetZ = static_cast<float>(coord.z) * chunkWorldSize;
 
     // Each vertex stores 6 floats: x, y, z, r, g, b.
     //
@@ -23,12 +29,12 @@ TerrainMeshData TerrainGenerator::generate(const TerrainSettings& settings) cons
         static_cast<std::size_t>(vertexCountPerSide * vertexCountPerSide * 6)
         );
 
-    // Generate a regular grid of vertices centered around the world origin.
+    // Generate a regular grid of vertices positioned at this chunk's world offset.
     //
     for (int z = 0; z < vertexCountPerSide; ++z) {
         for (int x = 0; x < vertexCountPerSide; ++x) {
-            const float worldX = static_cast<float>(x) * safeSpacing - halfSize;
-            const float worldZ = static_cast<float>(z) * safeSpacing - halfSize;
+            const float worldX = static_cast<float>(x) * safeSpacing - halfSize + chunkOffsetX;
+            const float worldZ = static_cast<float>(z) * safeSpacing - halfSize + chunkOffsetZ;
             const float worldY = heightAt(worldX, worldZ, settings);
 
             meshData.vertices.push_back(worldX);

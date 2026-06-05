@@ -4,25 +4,9 @@
 
 #include "Renderer.h"
 #include "Camera.h"
-#include "core/ScopedTimer.h"
 
 #include <glad/gl.h>
 #include <glm/mat4x4.hpp>
-
-namespace {
-    // Converts CPU-generated terrain data into a GPU mesh.
-    //
-    std::unique_ptr<Mesh> createTerrainMesh(const TerrainSettings& settings) {
-        TerrainGenerator generator;
-        TerrainMeshData terrainData = generator.generate(settings);
-
-        return std::make_unique<Mesh>(
-            terrainData.vertices,
-            terrainData.indices,
-            GL_TRIANGLES
-            );
-    }
-}
 
 Renderer::Renderer()
     : basicShader("assets/shaders/basic.vert", "assets/shaders/basic.frag") {}
@@ -38,25 +22,20 @@ void Renderer::beginFrame() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::drawScene(const Camera& camera) {
+void Renderer::drawScene(const Camera& camera, const std::vector<Chunk>& chunks) {
     basicShader.use();
     // Draw a temporary XZ-plane grid to validate the 3D camera and projection pipeline.
     //
     basicShader.setMat4("u_ViewProjection", camera.viewProjectionMatrix());
     basicShader.setMat4("u_Model", glm::mat4(1.0f));
 
-    if (terrainMesh != nullptr) {
-        terrainMesh->draw();
+    // Draw every currently active terrain chunk using the same camera/shader state.
+    //
+    for (const Chunk& chunk : chunks) {
+        chunk.draw();
     }
 }
 
 void Renderer::endFrame() {
     // STUB
-}
-
-// Replaces the active terrain mesh; the old mesh releases its GPU buffers through RAII.
-//
-void Renderer::regenerateTerrain(const TerrainSettings& settings, PerformanceMetrics& metrics) {
-    ScopedTimer timer(metrics.terrainGenerationTimeMs);
-    terrainMesh = createTerrainMesh(settings);
 }

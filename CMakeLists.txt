@@ -26,7 +26,12 @@ add_executable(ProceduralTerrainEngine
         src/world/TerrainGenerator.cpp
         src/world/TerrainGenerator.h
         src/core/PerformanceMetrics.h
-        src/core/ScopedTimer.h)
+        src/core/ScopedTimer.h
+        src/world/ChunkCoord.h
+        src/world/Chunk.cpp
+        src/world/Chunk.h
+        src/world/ChunkManager.cpp
+        src/world/ChunkManager.h)
 
 target_include_directories(ProceduralTerrainEngine PRIVATE
         src

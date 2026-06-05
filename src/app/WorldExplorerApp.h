@@ -10,6 +10,7 @@
 #include "../render/Renderer.h"
 #include "../world/TerrainGenerator.h"
 #include "../core/PerformanceMetrics.h"
+#include "../world/ChunkManager.h"
 
 class WorldExplorerApp {
 public:
@@ -29,6 +30,7 @@ private:
     Renderer renderer;
 
     TerrainSettings terrainSettings;
+    ChunkManager chunkManager;
     PerformanceMetrics metrics;
 
     float metricsTitleUpdateAccumulator = 0.0f;

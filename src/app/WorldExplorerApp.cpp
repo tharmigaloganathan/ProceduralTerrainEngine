@@ -16,7 +16,7 @@ WorldExplorerApp::WorldExplorerApp()
       renderer() {
     // Generate the initial terrain through the same path used for later regeneration.
     //
-    renderer.regenerateTerrain(terrainSettings, metrics);
+    chunkManager.initialize(terrainSettings, metrics);
 }
 
 void WorldExplorerApp::run() {
@@ -43,7 +43,7 @@ void WorldExplorerApp::run() {
         update(deltaTime);
 
         renderer.beginFrame();
-        renderer.drawScene(camera);
+        renderer.drawScene(camera, chunkManager.chunks());
         renderer.endFrame();
 
         updateWindowTitle(deltaTime);
@@ -107,7 +107,7 @@ void WorldExplorerApp::update(float deltaTime) {
         terrainSettings.heightScale += 0.5f;
         terrainSettings.frequency += 0.03f;
 
-        renderer.regenerateTerrain(terrainSettings, metrics);
+        chunkManager.regenerateAll(terrainSettings, metrics);
     }
 }
 
