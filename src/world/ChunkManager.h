@@ -16,10 +16,18 @@ public:
     void regenerateAll(const TerrainSettings& settings, PerformanceMetrics& metrics);
 
     const std::vector<Chunk>& chunks() const;
+
 private:
+    void createChunkGrid(const TerrainSettings& settings);
+
     TerrainGenerator terrainGenerator;
 
-    // Active chunks currently loaded in the world. For now we will only have the origin chunk.
+    // Number of chunks loaded outward from the origin.
+    // Radius 1 creates a 3x3 grid; radius 2 creates a 5x5 grid.
+    //
+    int chunkRadius = 1;
+
+    // Active chunks currently loaded in the world.
     //
     std::vector<Chunk> activeChunks;
 };

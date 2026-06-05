@@ -130,7 +130,9 @@ void WorldExplorerApp::updateWindowTitle(float deltaTime) {
           << " | Frame: " << std::fixed << std::setprecision(2)
           << metrics.frameTimeMs << " ms"
           << " | Terrain Gen: "
-          << metrics.terrainGenerationTimeMs << " ms";
+          << metrics.terrainGenerationTimeMs << " ms"
+          << " | Chunks: "
+          << metrics.activeChunkCount;
 
     window.setTitle(title.str());
 }

@@ -10,5 +10,7 @@ struct PerformanceMetrics {
     float frameTimeMs = 0.0f;
     float fps = 0.0f;
     float terrainGenerationTimeMs = 0.0f;
+
+    int activeChunkCount = 0;
 };
 
