@@ -11,6 +11,7 @@
 #include "../world/TerrainGenerator.h"
 #include "../core/PerformanceMetrics.h"
 #include "../world/ChunkManager.h"
+#include "../world/ChunkCoord.h"
 
 class WorldExplorerApp {
 public:
@@ -21,6 +22,7 @@ private:
     void update(float deltaTime);
     void updateWindowTitle(float deltaTime);
     float aspectRatio() const;
+    ChunkCoord currentCameraChunkCoord() const;
 
     // Construction order matters: Window creates the OpenGL context before Renderer creates GPU resources.
     //

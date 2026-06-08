@@ -16,7 +16,7 @@ public:
     Renderer();
 
     void beginFrame();
-    void drawScene(const Camera& camera, const std::vector<Chunk>& chunks);
+    void drawScene(const Camera& camera, const std::vector<const Chunk*>& chunks);
     void endFrame();
 
 private:

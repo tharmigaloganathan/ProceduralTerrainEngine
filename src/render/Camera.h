@@ -9,12 +9,11 @@
 
 class Camera {
 public:
-    Camera(float aspectRatio);
+    explicit Camera(float aspectRatio);
 
     void moveForward(float amount);
     void moveRight(float amount);
     void moveUp(float amount);
-
     void rotate(float yawDelta, float pitchDelta);
 
     void setAspectRatio(float aspectRatio);
@@ -23,6 +22,8 @@ public:
     glm::mat4 projectionMatrix() const;
     glm::mat4 viewProjectionMatrix() const;
 
+    // Exposes camera position for systems that need world-space context, such as chunk loading.
+    //
     glm::vec3 position() const;
 
 private:

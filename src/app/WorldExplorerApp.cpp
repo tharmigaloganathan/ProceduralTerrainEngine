@@ -8,6 +8,8 @@
 #include <GLFW/glfw3.h>
 #include <iomanip>
 #include <sstream>
+#include <cmath>
+#include <glm/vec3.hpp>
 
 WorldExplorerApp::WorldExplorerApp()
     : window(1280, 720, "Procedural Terrain Engine"),
@@ -16,7 +18,7 @@ WorldExplorerApp::WorldExplorerApp()
       renderer() {
     // Generate the initial terrain through the same path used for later regeneration.
     //
-    chunkManager.initialize(terrainSettings, metrics);
+    chunkManager.initialize(currentCameraChunkCoord(), terrainSettings, metrics);
 }
 
 void WorldExplorerApp::run() {
@@ -43,7 +45,7 @@ void WorldExplorerApp::run() {
         update(deltaTime);
 
         renderer.beginFrame();
-        renderer.drawScene(camera, chunkManager.chunks());
+        renderer.drawScene(camera, chunkManager.visibleChunks());
         renderer.endFrame();
 
         updateWindowTitle(deltaTime);
@@ -109,6 +111,14 @@ void WorldExplorerApp::update(float deltaTime) {
 
         chunkManager.regenerateAll(terrainSettings, metrics);
     }
+
+    const ChunkCoord cameraChunk = currentCameraChunkCoord();
+    metrics.cameraChunkX = cameraChunk.x;
+    metrics.cameraChunkZ = cameraChunk.z;
+
+    // Keep the active chunk region centered around the camera's current chunk.
+    //
+    chunkManager.updateAroundChunk(cameraChunk, terrainSettings, metrics);
 }
 
 void WorldExplorerApp::updateWindowTitle(float deltaTime) {
@@ -132,7 +142,10 @@ void WorldExplorerApp::updateWindowTitle(float deltaTime) {
           << " | Terrain Gen: "
           << metrics.terrainGenerationTimeMs << " ms"
           << " | Chunks: "
-          << metrics.activeChunkCount;
+          << metrics.activeChunkCount
+          << " | Camera Chunk: ("
+          << metrics.cameraChunkX << ", "
+          << metrics.cameraChunkZ << ")";
 
     window.setTitle(title.str());
 }
@@ -148,4 +161,20 @@ float WorldExplorerApp::aspectRatio() const {
     }
 
     return static_cast<float>(width) / static_cast<float>(height);
+}
+
+ChunkCoord WorldExplorerApp::currentCameraChunkCoord() const {
+    const glm::vec3 position = camera.position();
+
+    const int safeResolution = std::max(terrainSettings.resolution, 1);
+    const float safeSpacing = std::max(terrainSettings.spacing, 0.01f);
+    const float chunkWorldSize = static_cast<float>(safeResolution) * safeSpacing;
+
+    // Current terrain chunks are generated centered on their chunk offset.
+    // Adding half a chunk maps the camera position to that centered chunk layout.
+    //
+    const int chunkX = static_cast<int>(std::floor((position.x + chunkWorldSize * 0.5f) / chunkWorldSize));
+    const int chunkZ = static_cast<int>(std::floor((position.z + chunkWorldSize * 0.5f) / chunkWorldSize));
+
+    return ChunkCoord{chunkX, chunkZ};
 }

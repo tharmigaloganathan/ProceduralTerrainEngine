@@ -12,5 +12,7 @@ struct PerformanceMetrics {
     float terrainGenerationTimeMs = 0.0f;
 
     int activeChunkCount = 0;
+    int cameraChunkX = 0;
+    int cameraChunkZ = 0;
 };
 

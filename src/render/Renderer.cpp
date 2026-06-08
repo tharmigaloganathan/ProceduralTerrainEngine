@@ -22,7 +22,7 @@ void Renderer::beginFrame() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::drawScene(const Camera& camera, const std::vector<Chunk>& chunks) {
+void Renderer::drawScene(const Camera& camera, const std::vector<const Chunk*>& chunks) {
     basicShader.use();
     // Draw a temporary XZ-plane grid to validate the 3D camera and projection pipeline.
     //
@@ -31,8 +31,10 @@ void Renderer::drawScene(const Camera& camera, const std::vector<Chunk>& chunks)
 
     // Draw every currently active terrain chunk using the same camera/shader state.
     //
-    for (const Chunk& chunk : chunks) {
-        chunk.draw();
+    for (const Chunk* chunk : chunks) {
+        if (chunk != nullptr) {
+            chunk->draw();
+        }
     }
 }
 
