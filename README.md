@@ -100,6 +100,16 @@ Day 9 milestone complete:
 - ⁠Updated regeneration flow to rebuild all active chunks from shared terrain settings
 - ⁠Prepared chunk management structure for future camera-based loading and unloading
 
+Day 10 milestone complete:
+
+- ⁠Added camera-based chunk loading around the current camera position
+- ⁠Added chunk-coordinate hashing and lookup for active terrain chunks
+- ⁠Replaced fixed chunk grid storage with coordinate-addressable chunk storage
+- ⁠Loaded missing chunks and unloaded distant chunks as the camera moves
+- ⁠Preserved existing chunks when shifting the active terrain region
+- ⁠Updated active chunk and generation timing metrics during streaming updates
+- ⁠Prepared chunk manager architecture for future background generation workers
+
 ## Planned Features
 
 - GLM-based camera and transform math
